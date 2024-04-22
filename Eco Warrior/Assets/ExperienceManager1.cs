@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ExperienceManager1 : MonoBehaviour
 {
-    public static ExperienceManager1 Instance;
+    public static ExperienceManager1 Instance; // creation of ExperienceManager
 
-    public delegate void ExperienceChangeHandler1(int amount);
-    public event ExperienceChangeHandler1 OnExperienceChange;
+    public delegate void ExperienceChangeHandler1(int amount); // determines the amount of XP that will be added to the XP bar
+    public event ExperienceChangeHandler1 OnExperienceChange; // trigger event of XP change
 
 
-    private void Awake()
+    private void Awake() // activation of ExperienceManager and its processes, based on conditionals in the ifelse statement
     {
         if (Instance != null && Instance != this)
         {
@@ -22,7 +22,7 @@ public class ExperienceManager1 : MonoBehaviour
         }
     }
 
-    public void AddExperience1(int amount)
+    public void AddExperience1(int amount) // adds experience to the player's XP bar
     {
         OnExperienceChange?.Invoke(amount);
     }
