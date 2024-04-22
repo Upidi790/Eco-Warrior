@@ -24,7 +24,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ""name"": ""Player Controls"",
     ""maps"": [
         {
-            ""name"": ""Controller"",
+            ""name"": ""Movement"",
             ""id"": ""b5413a71-74d8-4c3b-b683-1f5ef32db14b"",
             ""actions"": [
                 {
@@ -92,27 +92,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                }
-            ]
-        },
-        {
-            ""name"": ""Keyboard"",
-            ""id"": ""fb9c08e5-d6eb-4cee-bdee-7215d4d28b06"",
-            ""actions"": [
-                {
-                    ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""523daed5-c2d3-4dbd-8e13-509a92bc991f"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
+                },
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""0aa51eab-4527-4e77-b063-2ff1b00ac173"",
+                    ""id"": ""92743f75-7947-45d7-89cb-8eae5f566c91"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -123,7 +106,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""6844615d-dce6-4b1a-8db3-315b4d5577af"",
+                    ""id"": ""66715ecc-6ad6-4e9a-90e2-14965c693b67"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -134,7 +117,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""d2ade2be-0e67-4519-a831-775b22af3edf"",
+                    ""id"": ""409f72f4-94b2-482d-98e7-86c631e37a56"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -145,7 +128,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""5c2da095-08cf-48aa-87d1-8eb4840bf359"",
+                    ""id"": ""0709465d-344f-4e41-9f63-cb78ec2ea755"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -156,7 +139,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""a1c6ca5d-1e38-45a4-aa7e-76add311ecf8"",
+                    ""id"": ""4347989a-8ef3-47e5-b9f5-b79cbd0c3df9"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -170,12 +153,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Controller
-        m_Controller = asset.FindActionMap("Controller", throwIfNotFound: true);
-        m_Controller_Move = m_Controller.FindAction("Move", throwIfNotFound: true);
-        // Keyboard
-        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
-        m_Keyboard_Move = m_Keyboard.FindAction("Move", throwIfNotFound: true);
+        // Movement
+        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
+        m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -234,102 +214,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Controller
-    private readonly InputActionMap m_Controller;
-    private List<IControllerActions> m_ControllerActionsCallbackInterfaces = new List<IControllerActions>();
-    private readonly InputAction m_Controller_Move;
-    public struct ControllerActions
+    // Movement
+    private readonly InputActionMap m_Movement;
+    private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
+    private readonly InputAction m_Movement_Move;
+    public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
-        public ControllerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Controller_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Controller; }
+        public MovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Movement_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ControllerActions set) { return set.Get(); }
-        public void AddCallbacks(IControllerActions instance)
+        public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
+        public void AddCallbacks(IMovementActions instance)
         {
-            if (instance == null || m_Wrapper.m_ControllerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_ControllerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
         }
 
-        private void UnregisterCallbacks(IControllerActions instance)
+        private void UnregisterCallbacks(IMovementActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
         }
 
-        public void RemoveCallbacks(IControllerActions instance)
+        public void RemoveCallbacks(IMovementActions instance)
         {
-            if (m_Wrapper.m_ControllerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MovementActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IControllerActions instance)
+        public void SetCallbacks(IMovementActions instance)
         {
-            foreach (var item in m_Wrapper.m_ControllerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MovementActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_ControllerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MovementActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public ControllerActions @Controller => new ControllerActions(this);
-
-    // Keyboard
-    private readonly InputActionMap m_Keyboard;
-    private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
-    private readonly InputAction m_Keyboard_Move;
-    public struct KeyboardActions
-    {
-        private @PlayerControls m_Wrapper;
-        public KeyboardActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Keyboard_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
-        public void AddCallbacks(IKeyboardActions instance)
-        {
-            if (instance == null || m_Wrapper.m_KeyboardActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Add(instance);
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
-        }
-
-        private void UnregisterCallbacks(IKeyboardActions instance)
-        {
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
-        }
-
-        public void RemoveCallbacks(IKeyboardActions instance)
-        {
-            if (m_Wrapper.m_KeyboardActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IKeyboardActions instance)
-        {
-            foreach (var item in m_Wrapper.m_KeyboardActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public KeyboardActions @Keyboard => new KeyboardActions(this);
-    public interface IControllerActions
-    {
-        void OnMove(InputAction.CallbackContext context);
-    }
-    public interface IKeyboardActions
+    public MovementActions @Movement => new MovementActions(this);
+    public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
     }
