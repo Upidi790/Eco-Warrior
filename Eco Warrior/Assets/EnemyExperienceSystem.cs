@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            ExperienceSystem playerExperience = player.GetComponent<ExperienceSystem>();
+            ExperienceManager1 playerExperience = player.GetComponent<ExperienceSystem>();
             if (playerExperience != null)
             {
                 switch (enemyType)
