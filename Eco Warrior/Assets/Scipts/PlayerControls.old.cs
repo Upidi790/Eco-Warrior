@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
-    private GameObject sword;
     private void Awake() {
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        sword = GameObject.Find("Sword");
     }
     private void OnEnable() {
         playerControls.Enable();
@@ -48,17 +46,6 @@ public class PlayerController : MonoBehaviour
     }
     private void AdjustPlayerFacingDirection()
     {
-        if (movement.x != 0)
-        {
-            if (movement.x < 0)
-            {
-                //mySpriteRenderer.flipX = ;
-            }
-            //.87;
-            //-.82;
-            
-            //sword.GetComponent<SpriteRenderer>().flipX = mySpriteRenderer.flipX;
-            //sword.GetComponent<Transform>().position.x -= 1.69;
-        }
+        mySpriteRenderer.flipX = (movement.x < 0);
     }
 }
