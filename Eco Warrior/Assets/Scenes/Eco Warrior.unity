@@ -808,9 +808,10 @@ GameObject:
   - component: {fileID: 1963807511}
   - component: {fileID: 1963807510}
   - component: {fileID: 1963807513}
+  - component: {fileID: 1963807514}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -918,10 +919,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1963807509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c16ddf688c5047a183288e353061dd4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d999f7e3e96441ba91d8cdbe7d209b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
+--- !u!95 &1963807514
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963807509}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf11e869a1fe74b13b0690ffbabdf899, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
