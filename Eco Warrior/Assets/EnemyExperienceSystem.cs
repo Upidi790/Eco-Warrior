@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
     public enum EnemyType
     {
         Small,
@@ -16,27 +17,26 @@ public class Enemy : MonoBehaviour
     public int bigMobXP = 20;
     public int bossXP = 100;
 
-    void OnDestroy()
+    [SerializeField] int experienceValue;
+
+    private void OnDestroy()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            ExperienceManager1 playerExperience = player.GetComponent<ExperienceSystem>();
-            if (playerExperience != null)
-            {
-                switch (enemyType)
-                {
-                    case EnemyType.Small:
-                        playerExperience.GainExperience(smallMobXP);
-                        break;
-                    case EnemyType.Big:
-                        playerExperience.GainExperience(bigMobXP);
-                        break;
-                    case EnemyType.Boss:
-                        playerExperience.GainExperience(bossXP);
-                        break;
-                }
-            }
-        }
+        // When the enemy is destroyed, add its experience value to the player's XP
+        ExperienceManager1.Instance.AddExperience1(experienceValue);
     }
+}
+
+public class EnemyTypeSmall : Enemy
+{
+    // Customize specific behavior or properties for Enemy Type 1 if needed
+}
+
+public class EnemyTypeBig : Enemy
+{
+    // Customize specific behavior or properties for Enemy Type 2 if needed
+}
+
+public class EnemyTypeBoss : Enemy
+{
+    // Customize specific behavior or properties for Enemy Type 3 if needed
 }
