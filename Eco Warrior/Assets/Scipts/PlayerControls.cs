@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
+    private Transform myTransform;
     private SpriteRenderer swordRenderer;
     private Transform swordTransform;
     private void Awake() {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myTransform = GetComponent<Transform>();
         GameObject sword = GameObject.Find("Sword");
         swordRenderer = sword.GetComponent<SpriteRenderer>();
         swordTransform = sword.GetComponent<Transform>();
@@ -57,13 +59,13 @@ public class PlayerController : MonoBehaviour
             {
                 mySpriteRenderer.flipX = true;
                 swordRenderer.flipX = true;
-                //swordTransform.position.x = -.87;
+                swordTransform.position = new Vector3(myTransform.position.x-0.87f, swordTransform.position.y, swordTransform.position.z);
             }
             else
             {
                 mySpriteRenderer.flipX = false;
                 swordRenderer.flipX = false;
-                //swordTransform.position.x = .82;
+                swordTransform.position = new Vector3(myTransform.position.x+0.82f, swordTransform.position.y, swordTransform.position.z);
             }
         }
     }
