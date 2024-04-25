@@ -10,13 +10,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
-    private GameObject sword;
+    private Transform myTransform;
+    private SpriteRenderer swordRenderer;
+    private Transform swordTransform;
     private void Awake() {
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        sword = GameObject.Find("Sword");
+        myTransform = GetComponent<Transform>();
+        GameObject sword = GameObject.Find("Sword");
+        swordRenderer = sword.GetComponent<SpriteRenderer>();
+        swordTransform = sword.GetComponent<Transform>();
     }
     private void OnEnable() {
         playerControls.Enable();
@@ -52,13 +57,16 @@ public class PlayerController : MonoBehaviour
         {
             if (movement.x < 0)
             {
-                //mySpriteRenderer.flipX = ;
+                mySpriteRenderer.flipX = true;
+                swordRenderer.flipX = true;
+                swordTransform.position = new Vector3(myTransform.position.x-0.87f, swordTransform.position.y, swordTransform.position.z);
             }
-            //.87;
-            //-.82;
-            
-            //sword.GetComponent<SpriteRenderer>().flipX = mySpriteRenderer.flipX;
-            //sword.GetComponent<Transform>().position.x -= 1.69;
+            else
+            {
+                mySpriteRenderer.flipX = false;
+                swordRenderer.flipX = false;
+                swordTransform.position = new Vector3(myTransform.position.x+0.82f, swordTransform.position.y, swordTransform.position.z);
+            }
         }
     }
 }
